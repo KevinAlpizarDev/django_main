@@ -1,18 +1,7 @@
 services:
-  react:
-    container_name: react
-    image: react
-    build:
-      context: ./reactApp
-    volumes:
-      - ./reactApp:/app
-      - /app/node_modules
-    ports:
-      - "5173:5173"
-
   django:
-    image: django
-    container_name: django
+    image: django_app
+    container_name: django_app
     build:
       context: ./djangoApp
     ports:
@@ -23,6 +12,17 @@ services:
       bash -c "./wait-for-it.sh mysql:3306 -- echo 'MySQL is up!' && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - mysql
+
+  react:
+    container_name: react_app
+    image: react_app
+    build:
+      context: ./reactApp
+    volumes:
+      - ./reactApp:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
 
   mysql:
     image: mysql:latest
